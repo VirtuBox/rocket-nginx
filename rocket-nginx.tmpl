@@ -159,24 +159,14 @@ add_header X-Rocket-Nginx-File $rocket_file;
 
 
 ###################################################################################################
-# BROWSER CSS CACHE
+# BROWSER CSS & JS CACHE
 #
-location ~* \.css$ {
-	etag on;
-	gzip_vary on;
-	expires 30d;
-	#!# HEADER_CSS #!#
-}
-
-
-###################################################################################################
-# BROWSER JS CACHE
-#
-location ~* \.js$ {
-	etag on;
-	gzip_vary on;
-	expires 30d;
-	#!# HEADER_JS #!#
+location ~* \.(?:css(\.map)?|js(\.map)?)$ {
+    add_header "Access-Control-Allow-Origin" "*";
+    etag on;
+    access_log off;
+    log_not_found off;
+    expires 30d;
 }
 
 
@@ -185,6 +175,9 @@ location ~* \.js$ {
 #
 location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
 	etag on;
+	add_header "Access-Control-Allow-Origin" "*";
+	access_log off;
+    	log_not_found off;
 	expires 30d;
 	#!# HEADER_MEDIAS #!#
 }
